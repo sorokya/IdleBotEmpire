@@ -232,11 +232,11 @@ static const Glyph sans11[256] = {
     [0xff] = {196, 170, 5, 11}, // 'ÿ'
 };
 
-void RenderTextColor(const Atlas *atlas, const char *text, i32 x, i32 y, Color color)
+void RenderTextColor(const Atlas *atlas, const char *text, float x, float y, Color color)
 {
     AtlasSprite sprite = atlas->sprites[ATLAS_SANS_11];
     Rectangle src = {0};
-    Rectangle dst = {(float)x, (float)y, 0, 0};
+    Rectangle dst = {x, y, 0, 0};
     Glyph glyph = sans11[0];
 
     const u8 *p = (u8 *)text;
@@ -254,7 +254,7 @@ void RenderTextColor(const Atlas *atlas, const char *text, i32 x, i32 y, Color c
     }
 }
 
-inline void RenderText(const Atlas *atlas, const char *text, i32 x, i32 y)
+inline void RenderText(const Atlas *atlas, const char *text, float x, float y)
 {
     RenderTextColor(atlas, text, x, y, WHITE);
 }

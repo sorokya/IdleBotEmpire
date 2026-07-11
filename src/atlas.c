@@ -49,8 +49,11 @@ Atlas AtlasInit(void)
         .mipmaps = 1,
     };
 
+    Texture2D texture = LoadTextureFromImage(img);
+    SetTextureFilter(texture, TEXTURE_FILTER_POINT);
+
     return (Atlas){
-        .texture = LoadTextureFromImage(img),
+        .texture = texture,
         .sprites = atlas_sprites,
         .count = sizeof(atlas_sprites) / sizeof(atlas_sprites[0]),
     };

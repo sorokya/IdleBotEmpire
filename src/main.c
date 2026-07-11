@@ -7,14 +7,13 @@
 static float accumulator = 0.0f;
 
 Atlas atlas;
-Window test_window;
+UIState ui;
 
 void update(float dt)
 {
     accumulator += dt;
     while (accumulator > IDLE_STEP)
     {
-        UpdateWindow(&test_window);
         accumulator -= IDLE_STEP;
     }
 }
@@ -24,7 +23,13 @@ void render(void)
     BeginDrawing();
     ClearBackground((Color){0, 0x80, 0x80, 0xff});
 
-    RenderWindow(&atlas, &test_window);
+    ui_begin(&ui, 0, 0, IDLE_WINDOW_WIDTH, IDLE_WINDOW_HEIGHT);
+
+    debug_box(&ui, 200, 200, RED);
+    debug_box(&ui, 200, 200, GREEN);
+    debug_box(&ui, 200, 200, BLUE);
+
+    ui_end(&ui);
 
     EndDrawing();
 }
@@ -37,7 +42,8 @@ int main(void)
     SetTargetFPS(20);
 
     atlas = AtlasInit();
-    test_window = InitIdleWindow(10, 10, 400, 400, "Hello World!");
+    ui = (UIState){0};
+    ui.atlas = &atlas;
 
     while (!WindowShouldClose())
     {
