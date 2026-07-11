@@ -1,8 +1,8 @@
 #ifndef IDLE_CONFIG_H
 #define IDLE_CONFIG_H
 
-#define IDLE_WINDOW_WIDTH 1600
-#define IDLE_WINDOW_HEIGHT 900
+#define IDLE_WINDOW_WIDTH 1280
+#define IDLE_WINDOW_HEIGHT 720
 
 const float IDLE_STEP = 1.0f / 20.0f;
 
