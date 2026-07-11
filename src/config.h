@@ -4,6 +4,8 @@
 #define IDLE_WINDOW_WIDTH 1600
 #define IDLE_WINDOW_HEIGHT 900
 
+const float IDLE_STEP = 1.0f / 20.0f;
+
 const char *IDLE_GAME_TITLE = "Idle Bot Empire";
 
 #endif
