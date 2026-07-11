@@ -61,7 +61,7 @@ void AtlasRenderSprite(const Atlas *atlas, SpriteId id, i32 x, i32 y)
     AtlasSprite sprite = atlas->sprites[id];
     Rectangle src = {(float)sprite.x, (float)sprite.y, (float)sprite.w, (float)sprite.h};
     Rectangle dst = {(float)x, (float)y, (float)sprite.originalW, (float)sprite.originalH};
-    DrawTexturePro(atlas->texture, src, dst, (Vector2){0, 0}, 0.0f, RAYWHITE);
+    DrawTexturePro(atlas->texture, src, dst, (Vector2){0, 0}, 0.0f, WHITE);
 }
 
 void AtlasRenderNinePatch(const Atlas *atlas, SpriteId id, Rectangle dst)
@@ -77,7 +77,7 @@ void AtlasRenderNinePatch(const Atlas *atlas, SpriteId id, Rectangle dst)
     if (l == 0 && r == 0 && t == 0 && b == 0)
     {
         Rectangle src = {(float)sp.x, (float)sp.y, (float)sp.w, (float)sp.h};
-        DrawTexturePro(atlas->texture, src, dst, (Vector2){0, 0}, 0.0f, RAYWHITE);
+        DrawTexturePro(atlas->texture, src, dst, (Vector2){0, 0}, 0.0f, WHITE);
         return;
     }
 
@@ -125,15 +125,15 @@ void AtlasRenderNinePatch(const Atlas *atlas, SpriteId id, Rectangle dst)
     Rectangle dMM = {dst.x + (float)l, dst.y + (float)t, midW, midH};
 
     // 9 tiles
-    DrawTexturePro(atlas->texture, sTL, dTL, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sTM, dTM, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sTR, dTR, (Vector2){0, 0}, 0.0f, RAYWHITE);
+    DrawTexturePro(atlas->texture, sTL, dTL, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sTM, dTM, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sTR, dTR, (Vector2){0, 0}, 0.0f, WHITE);
 
-    DrawTexturePro(atlas->texture, sLM, dLM, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sMM, dMM, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sRM, dRM, (Vector2){0, 0}, 0.0f, RAYWHITE);
+    DrawTexturePro(atlas->texture, sLM, dLM, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sMM, dMM, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sRM, dRM, (Vector2){0, 0}, 0.0f, WHITE);
 
-    DrawTexturePro(atlas->texture, sBL, dBL, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sBM, dBM, (Vector2){0, 0}, 0.0f, RAYWHITE);
-    DrawTexturePro(atlas->texture, sBR, dBR, (Vector2){0, 0}, 0.0f, RAYWHITE);
+    DrawTexturePro(atlas->texture, sBL, dBL, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sBM, dBM, (Vector2){0, 0}, 0.0f, WHITE);
+    DrawTexturePro(atlas->texture, sBR, dBR, (Vector2){0, 0}, 0.0f, WHITE);
 }

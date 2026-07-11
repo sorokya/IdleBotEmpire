@@ -37,7 +37,7 @@ int main(void)
     SetTargetFPS(20);
 
     atlas = AtlasInit();
-    test_window = InitIdleWindow(10, 10, 400, 400);
+    test_window = InitIdleWindow(10, 10, 400, 400, "Hello World!");
 
     while (!WindowShouldClose())
     {

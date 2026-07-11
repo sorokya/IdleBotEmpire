@@ -1,6 +1,7 @@
 #ifndef IDLE_NUMBERS
 #define IDLE_NUMBERS
 
+#include "stddef.h"
 #include "stdint.h"
 #include "stdbool.h"
 
