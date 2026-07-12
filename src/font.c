@@ -240,10 +240,10 @@ void RenderTextColor(const Atlas *atlas, const char *text, float x, float y, Col
     Glyph glyph = sans11[0];
 
     const u8 *p = (u8 *)text;
-    while (*p != '\0')
+    while (*p)
     {
         glyph = sans11[*p];
-        src = (Rectangle){(float)(sprite.x + glyph.x), (float)(sprite.y + glyph.y), (float)glyph.w, (float)glyph.h};
+        src = (Rectangle){(float)(sprite.x + glyph.x - 1), (float)(sprite.y + glyph.y - 1), (float)glyph.w, (float)glyph.h};
         dst.width = src.width;
         dst.height = src.height;
 
