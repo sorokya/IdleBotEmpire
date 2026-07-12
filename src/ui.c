@@ -191,6 +191,11 @@ UIWindowState *ui_get_window_state(UIState *ui, UIID id, float default_w, float 
 
     Rectangle bounds = ui_next_rect(ui, default_w, default_h);
 
+    for (int i = 0; i < ui->window_count; i++)
+    {
+        ui->windows[i].active = false;
+    }
+
     ui->windows[ui->window_count++] = (UIWindowState){
         .id = id,
         .bounds = bounds,
@@ -245,7 +250,7 @@ void ui_begin_window(UIState *ui, float w, float h, const char *title)
         }
     }
 
-    AtlasRenderNinePatch(ui->atlas, ATLAS_WINDOW_HEADER_RESIZABLE_ACTIVE, win->bounds);
+    AtlasRenderNinePatch(ui->atlas, win->active ? ATLAS_WINDOW_HEADER_RESIZABLE_ACTIVE : ATLAS_WINDOW_HEADER_RESIZABLE_INACTIVE, win->bounds);
     RenderText(ui->atlas, title, win->bounds.x + 10, win->bounds.y + 10);
 }
 

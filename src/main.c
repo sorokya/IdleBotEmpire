@@ -29,6 +29,9 @@ void render(void)
     ui_begin_window(&ui, 800, 600, "Test Window");
     ui_end_window(&ui);
 
+    ui_begin_window(&ui, 100, 200, "Other");
+    ui_end_window(&ui);
+
     ui_end(&ui);
 
     EndDrawing();
@@ -39,7 +42,7 @@ int main(void)
     InitWindow(IDLE_WINDOW_WIDTH, IDLE_WINDOW_HEIGHT, IDLE_GAME_TITLE);
 
     SetConfigFlags(FLAG_VSYNC_HINT);
-    SetTargetFPS(20);
+    SetTargetFPS(30);
 
     atlas = AtlasInit();
     ui = (UIState){0};
