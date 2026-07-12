@@ -9,6 +9,8 @@ typedef u64 UIID;
 
 #define UI_KEY_COUNT 512
 
+#define UI_WINDOW_TITLE_HEIGHT 24
+
 typedef struct UIInput
 {
     float mouse_x;
@@ -23,7 +25,7 @@ typedef struct UIInput
     bool keys_down[UI_KEY_COUNT];
     bool keys_pressed[UI_KEY_COUNT];
 
-    char chars[32];
+    i32 chars[32];
     i32 char_count;
 } UIInput;
 
@@ -36,6 +38,15 @@ typedef struct UITextState
 
     float blink_timer;
 } UITextState;
+
+typedef struct UIWindowState
+{
+    UIID id;
+    Rectangle bounds;
+    bool active;
+    bool dragging;
+    Vector2 drag_start;
+} UIWindowState;
 
 typedef enum UILayout
 {
@@ -72,13 +83,19 @@ typedef struct UIState
     UIID id_stack[32];
     i32 id_stack_count;
 
+    UIWindowState windows[32];
+    i32 window_count;
+
     UITextState text_state;
 } UIState;
 
+void ui_update_input(UIState *ui);
 void ui_begin(UIState *ui, float x, float y, float width, float height);
 void ui_end(UIState *ui);
 void ui_push_id(UIState *ui, UIID id);
 void ui_pop_id(UIState *ui);
 void debug_box(UIState *ui, float w, float h, Color c);
+void ui_begin_window(UIState *ui, float w, float h, const char *title);
+void ui_end_window(UIState *ui);
 
 #endif

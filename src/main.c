@@ -23,11 +23,11 @@ void render(void)
     BeginDrawing();
     ClearBackground((Color){0, 0x80, 0x80, 0xff});
 
+    ui_update_input(&ui);
     ui_begin(&ui, 0, 0, IDLE_WINDOW_WIDTH, IDLE_WINDOW_HEIGHT);
 
-    debug_box(&ui, 200, 200, RED);
-    debug_box(&ui, 200, 200, GREEN);
-    debug_box(&ui, 200, 200, BLUE);
+    ui_begin_window(&ui, 800, 600, "Test Window");
+    ui_end_window(&ui);
 
     ui_end(&ui);
 

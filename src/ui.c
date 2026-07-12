@@ -8,6 +8,37 @@ UIContainer *ui_current_container(UIState *ui)
     return &ui->containers[ui->container_count - 1];
 }
 
+void ui_update_input(UIState *ui)
+{
+    UIInput *input = &ui->input;
+
+    Vector2 mouse = GetMousePosition();
+
+    input->mouse_x = mouse.x;
+    input->mouse_y = mouse.y;
+
+    input->mouse_down = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    input->mouse_pressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    input->mouse_released = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+
+    input->wheel = (i32)GetMouseWheelMove();
+
+    for (int key = 0; key < UI_KEY_COUNT; key++)
+    {
+        input->keys_down[key] = IsKeyDown(key);
+        input->keys_pressed[key] = IsKeyPressed(key);
+    }
+
+    input->char_count = 0;
+
+    i32 c;
+    while ((c = GetCharPressed()) != 0)
+    {
+        if (input->char_count < 32)
+            input->chars[input->char_count++] = c;
+    }
+}
+
 void ui_begin(UIState *ui, float x, float y, float width, float height)
 {
     UIContainer *c = &ui->containers[ui->container_count++];
@@ -148,4 +179,77 @@ void debug_box(UIState *ui, float w, float h, Color c)
     snprintf(str, sizeof(str), "%" PRIx64, id);
 
     RenderText(ui->atlas, str, r.x + 10, r.y + 10);
+}
+
+UIWindowState *ui_get_window_state(UIState *ui, UIID id, float default_w, float default_h)
+{
+    for (int i = 0; i < ui->window_count; i++)
+    {
+        if (ui->windows[i].id == id)
+            return &ui->windows[i];
+    }
+
+    Rectangle bounds = ui_next_rect(ui, default_w, default_h);
+
+    ui->windows[ui->window_count++] = (UIWindowState){
+        .id = id,
+        .bounds = bounds,
+        .active = true,
+        .dragging = false,
+        .drag_start = (Vector2){0.0, 0.0},
+    };
+
+    return &ui->windows[ui->window_count - 1];
+}
+
+void ui_begin_window(UIState *ui, float w, float h, const char *title)
+{
+    UIID id = ui_make_id(ui, "window");
+    id = ui_hash_combine(id, ui_hash_string(title));
+
+    ui_push_id(ui, id);
+
+    UIWindowState *win = ui_get_window_state(ui, id, w, h);
+
+    bool hovered = XYInRect(ui->input.mouse_x, ui->input.mouse_y, win->bounds);
+    if (hovered && ui->input.mouse_pressed)
+    {
+        for (int i = 0; i < ui->window_count; i++)
+        {
+            ui->windows[i].active = false;
+        }
+
+        win->active = true;
+
+        if (!win->dragging && ui->input.mouse_y < win->bounds.y + UI_WINDOW_TITLE_HEIGHT)
+        {
+            win->dragging = true;
+            win->drag_start.x = ui->input.mouse_x;
+            win->drag_start.y = ui->input.mouse_y;
+        }
+    }
+
+    if (win->dragging)
+    {
+        if (ui->input.mouse_released)
+        {
+            win->dragging = false;
+            ui->active_id = 0;
+        }
+        else
+        {
+            win->bounds.x = win->bounds.x - (win->drag_start.x - ui->input.mouse_x);
+            win->bounds.y = win->bounds.y - (win->drag_start.y - ui->input.mouse_y);
+            win->drag_start.x = ui->input.mouse_x;
+            win->drag_start.y = ui->input.mouse_y;
+        }
+    }
+
+    AtlasRenderNinePatch(ui->atlas, ATLAS_WINDOW_HEADER_RESIZABLE_ACTIVE, win->bounds);
+    RenderText(ui->atlas, title, win->bounds.x + 10, win->bounds.y + 10);
+}
+
+void ui_end_window(UIState *ui)
+{
+    ui_pop_id(ui);
 }

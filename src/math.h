@@ -23,6 +23,11 @@ static inline bool VecInRect(Vector2 vec, Rectangle rect)
            vec.y < rect.y + rect.height;
 }
 
+static inline bool XYInRect(float x, float y, Rectangle rect)
+{
+    return VecInRect((Vector2){x, y}, rect);
+}
+
 static inline Rectangle i32Rect(i32 x, i32 y, i32 w, i32 h)
 {
     return (Rectangle){(float)x, (float)y, (float)w, (float)h};
